@@ -3,15 +3,16 @@ package br.com.softworks.pesquisei.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Data
-public class CidadeDTO {
+public class BairroDTO {
 
     private Long id;
 
     @NotBlank
     private String nome;
 
-    @NotBlank
-    private String estadoSigla;
+    @NotNull
+    private Long idCidade;
 }

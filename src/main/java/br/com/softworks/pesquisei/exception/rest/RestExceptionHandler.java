@@ -1,5 +1,6 @@
-package br.com.softworks.pesquisei.exception;
+package br.com.softworks.pesquisei.exception.rest;
 
+import br.com.softworks.pesquisei.exception.model.ServiceException;
 import br.com.softworks.pesquisei.util.MapBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,12 @@ public class RestExceptionHandler {
         });
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(MapBuilder.build("message", errors));
+                .body(MapBuilder.build("mensagem", errors));
+    }
+
+    @ExceptionHandler({ServiceException.class})
+    public ResponseEntity cidadeException(ServiceException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(MapBuilder.build("mensagem", ex));
     }
 }

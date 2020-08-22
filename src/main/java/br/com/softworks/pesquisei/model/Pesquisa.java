@@ -34,6 +34,9 @@ public class Pesquisa {
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataCricao;
 
+    @Column(name = "numero_entrevistados")
+    private Integer numeroEntrevistados;
+
     @OneToMany(mappedBy = "pesquisa",
             fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,

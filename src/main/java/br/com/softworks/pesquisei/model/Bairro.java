@@ -6,8 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 @Entity
 @Builder
@@ -26,7 +24,4 @@ public class Bairro {
     private Cidade cidade;
 
     private String nome;
-
-    @OneToMany(mappedBy = "bairro")
-    List<BairroPequisa> bairroPesquisas;
 }
