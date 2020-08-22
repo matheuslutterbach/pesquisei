@@ -27,7 +27,7 @@ public class BairroController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody @Valid BairroDTO dto) {
-        return new ResponseEntity<>(bairroService.cadastrar(builder.build(dto)),
+        return new ResponseEntity<>(bairroService.cadastrar(builder.build(new Bairro(), dto)),
                 HttpStatus.CREATED);
     }
 

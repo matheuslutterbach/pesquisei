@@ -16,8 +16,10 @@ import javax.validation.Valid;
 @RestController
 public class CidadeController {
 
-    @Autowired private CidadeBuilder builder;
-    @Autowired private CidadeService cidadeService;
+    @Autowired
+    private CidadeBuilder builder;
+    @Autowired
+    private CidadeService cidadeService;
 
     @GetMapping
     public ResponseEntity<?> buscar() {
@@ -27,7 +29,7 @@ public class CidadeController {
 
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody @Valid CidadeDTO dto) {
-        return new ResponseEntity<>(cidadeService.cadastrar(builder.build(dto)),
+        return new ResponseEntity<>(cidadeService.cadastrar(builder.build(new Cidade(), dto)),
                 HttpStatus.CREATED);
     }
 

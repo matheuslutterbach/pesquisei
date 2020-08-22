@@ -29,8 +29,8 @@ public class RestExceptionHandler {
     }
 
     @ExceptionHandler({ServiceException.class})
-    public ResponseEntity cidadeException(ServiceException ex) {
+    public ResponseEntity serviceException(ServiceException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(MapBuilder.build("mensagem", ex));
+                .body(MapBuilder.build("mensagem", ex.getMessage()));
     }
 }

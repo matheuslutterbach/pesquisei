@@ -10,17 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BairroBuilder {
 
-    @Autowired
-    private CidadeService cidadeService;
-
-    public Bairro build(BairroDTO dto) {
-        Cidade cidade = cidadeService.buscarPorId(dto.getIdCidade());
-
-        return Bairro.builder()
-                .nome(dto.getNome())
-                .cidade(cidade)
-                .build();
-    }
+    @Autowired private CidadeService cidadeService;
 
     public Bairro build(Bairro bairro, BairroDTO dto) {
         Cidade cidade = cidadeService.buscarPorId(dto.getIdCidade());

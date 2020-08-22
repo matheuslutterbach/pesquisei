@@ -38,11 +38,13 @@ public class Pesquisa {
     private Integer numeroEntrevistados;
 
     @OneToMany(mappedBy = "pesquisa",
-            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private List<Pergunta> perguntas;
 
-    @OneToMany(mappedBy = "pesquisa")
+    @OneToMany(mappedBy = "pesquisa",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER,
+            orphanRemoval = true)
     List<BairroPequisa> bairroPesquisas;
 }

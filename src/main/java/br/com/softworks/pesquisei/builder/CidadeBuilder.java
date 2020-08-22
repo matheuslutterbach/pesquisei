@@ -9,15 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CidadeBuilder {
 
-    @Autowired
-    private CidadeService cidadeService;
-
-    public Cidade build(CidadeDTO dto) {
-        return Cidade.builder()
-                .nome(dto.getNome())
-                .estadoSigla(dto.getEstadoSigla())
-                .build();
-    }
+    @Autowired private CidadeService cidadeService;
 
     public Cidade build(Cidade cidade, CidadeDTO dto) {
         cidade.setNome(dto.getNome());

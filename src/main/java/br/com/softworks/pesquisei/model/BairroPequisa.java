@@ -1,5 +1,6 @@
 package br.com.softworks.pesquisei.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tbl_bairro")
+@Table(name = "tbl_bairro_pesquisa")
 public class BairroPequisa {
 
     @Id
@@ -25,10 +26,10 @@ public class BairroPequisa {
     @JoinColumn(name = "id_bairro")
     private Bairro bairro;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_pesquisa")
     private Pesquisa pesquisa;
 
-    @NotNull
     private BigDecimal percentual;
 }
