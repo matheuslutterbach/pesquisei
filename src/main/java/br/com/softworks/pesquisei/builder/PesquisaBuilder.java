@@ -27,35 +27,35 @@ public class PesquisaBuilder {
         pesquisa.setNumeroEntrevistados(dto.getNumeroEntrevistados());
 
         Set<BairroPequisa> bairroPesquisas = new HashSet<>();
-        for (BairroPesquisaDTO bp : dto.getBairrosPesquisa()) {
+        dto.getBairrosPesquisa().forEach(bp -> {
             Bairro bairro = bairroService.buscarPorId(bp.getBairroId());
-
             BairroPequisa bairroPesquisa = new BairroPequisa();
             bairroPesquisa.setBairro(bairro);
             bairroPesquisa.setPercentual(bp.getPercentual());
             bairroPesquisa.setPesquisa(pesquisa);
-
             bairroPesquisas.add(bairroPesquisa);
-        }
+        });
 
         List<Pergunta> perguntas = new LinkedList<>();
-        for (PerguntaDTO perguntaDTO : dto.getPerguntas()) {
+
+        dto.getPerguntas().forEach(perguntaDTO -> {
             Pergunta pergunta = new Pergunta();
             pergunta.setDescricao(perguntaDTO.getDescricao());
             pergunta.setOrdem(perguntaDTO.getOrdem());
             pergunta.setPesquisa(pesquisa);
 
             List<Resposta> respostas = new LinkedList<>();
-            for (RespostaDTO respostaDTO : perguntaDTO.getRespostas()) {
+            perguntaDTO.getRespostas().forEach(respostaDTO -> {
                 Resposta resposta = new Resposta();
                 resposta.setDescricao(respostaDTO.getDescricao());
                 resposta.setOrdem(respostaDTO.getOrdem());
                 resposta.setPergunta(pergunta);
                 respostas.add(resposta);
-            }
+            });
+
             pergunta.setRespostas(respostas);
             perguntas.add(pergunta);
-        }
+        });
 
         pesquisa.setPerguntas(perguntas);
         pesquisa.setBairroPesquisas(bairroPesquisas);
