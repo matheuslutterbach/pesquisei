@@ -1,21 +1,20 @@
 package br.com.softworks.pesquisei.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@EqualsAndHashCode(exclude = "bairroPesquisas")
 @Table(name = "tbl_pesquisa")
 public class Pesquisa {
 
@@ -38,13 +37,10 @@ public class Pesquisa {
     private Integer numeroEntrevistados;
 
     @OneToMany(mappedBy = "pesquisa",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
+            cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pergunta> perguntas;
 
     @OneToMany(mappedBy = "pesquisa",
-            cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER,
-            orphanRemoval = true)
-    List<BairroPequisa> bairroPesquisas;
+            cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<BairroPequisa> bairroPesquisas;
 }

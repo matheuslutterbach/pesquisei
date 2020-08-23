@@ -1,4 +1,4 @@
-create TABLE IF NOT EXISTS tbl_pergunta (
+create TABLE IF NOT EXISTS tbl_resposta (
     id                         BIGINT AUTO_INCREMENT PRIMARY KEY,
     id_pergunta                BIGINT NOT NULL,
     descricao                  VARCHAR(255),

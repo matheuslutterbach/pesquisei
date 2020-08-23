@@ -1,21 +1,21 @@
 package br.com.softworks.pesquisei.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"pesquisa", "resposta"})
 @Table(name = "tbl_pergunta")
 public class Pergunta {
 
@@ -23,6 +23,7 @@ public class Pergunta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_pesquisa", nullable = false)
     private Pesquisa pesquisa;
@@ -33,4 +34,9 @@ public class Pergunta {
 
     @NotNull
     private Integer ordem;
+
+    @OneToMany(mappedBy = "pergunta",
+            cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Resposta> respostas;
+
 }

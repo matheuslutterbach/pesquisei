@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -20,5 +21,7 @@ public class PesquisaDTO {
 
     private Integer numeroEntrevistados;
 
-    private List<BairroPesquisaDTO> bairrosPesquisa;
+    private List<BairroPesquisaDTO> bairrosPesquisa = new LinkedList<>();
+
+    private List<PerguntaDTO> perguntas = new LinkedList<>();
 }

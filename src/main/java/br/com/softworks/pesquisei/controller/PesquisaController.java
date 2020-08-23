@@ -3,7 +3,6 @@ package br.com.softworks.pesquisei.controller;
 
 import br.com.softworks.pesquisei.builder.PesquisaBuilder;
 import br.com.softworks.pesquisei.dto.PesquisaDTO;
-import br.com.softworks.pesquisei.model.Bairro;
 import br.com.softworks.pesquisei.model.Pesquisa;
 import br.com.softworks.pesquisei.service.PesquisaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +16,8 @@ import javax.validation.Valid;
 @RestController
 public class PesquisaController {
 
-    @Autowired
-    private PesquisaBuilder builder;
-    @Autowired
-    private PesquisaService pesquisaService;
+    @Autowired private PesquisaBuilder builder;
+    @Autowired private PesquisaService pesquisaService;
 
     @GetMapping
     public ResponseEntity<?> buscar() {
@@ -33,6 +30,7 @@ public class PesquisaController {
         return new ResponseEntity<>(pesquisaService.cadastrar(builder.build(new Pesquisa(), dto)),
                 HttpStatus.CREATED);
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<?> alterar(@PathVariable("id") Long id, @RequestBody @Valid PesquisaDTO dto) {

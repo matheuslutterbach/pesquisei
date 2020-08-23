@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
@@ -16,17 +16,15 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tbl_bairro_pesquisa")
-public class BairroPequisa {
+public class BairroPequisa implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne
     @JoinColumn(name = "id_bairro")
     private Bairro bairro;
 
     @JsonIgnore
+    @Id
     @ManyToOne
     @JoinColumn(name = "id_pesquisa")
     private Pesquisa pesquisa;

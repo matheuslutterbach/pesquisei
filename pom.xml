@@ -15,7 +15,7 @@
     <description>Api que fornece recursos para o software de pesquisas pesquisei</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
@@ -74,5 +74,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
