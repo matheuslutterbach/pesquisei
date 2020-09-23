@@ -1,5 +1,6 @@
 package br.com.softworks.pesquisei.model;
 
+import br.com.softworks.pesquisei.dto.RetornoResultadoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -36,6 +37,11 @@ public class Pesquisa {
     @Column(name = "numero_entrevistados")
     private Integer numeroEntrevistados;
 
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "data_alteracao")
+    private Date alteracao;
+
     @OneToMany(mappedBy = "pesquisa",
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Pergunta> perguntas;
@@ -43,4 +49,5 @@ public class Pesquisa {
     @OneToMany(mappedBy = "pesquisa",
             cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<BairroPequisa> bairroPesquisas;
+
 }

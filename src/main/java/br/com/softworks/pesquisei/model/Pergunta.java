@@ -1,6 +1,8 @@
 package br.com.softworks.pesquisei.model;
 
 
+import br.com.softworks.pesquisei.dto.ResultadoDTO;
+import br.com.softworks.pesquisei.dto.RetornoResultadoDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -8,6 +10,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
@@ -39,4 +44,29 @@ public class Pergunta {
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Resposta> respostas;
 
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "data_alteracao")
+    private Date alteracao;
+
+    @Transient
+    private Long pesquisaId;
+
+    @Transient
+    private List<RetornoResultadoDTO> resultados;
+
+    @Transient
+    private List<String> labels = new LinkedList<>();
+
+    @Transient
+    private List<Long> totais = new LinkedList<>();;
+
+    public void adicionaResultados(List<RetornoResultadoDTO> resultados) {
+        if (resultados == null) {
+            resultados = new LinkedList<>();
+        }
+
+        resultados.addAll(resultados);
+    }
 }

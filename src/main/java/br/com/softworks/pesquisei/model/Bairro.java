@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,13 +22,14 @@ public class Bairro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_cidade", nullable = false)
     private Cidade cidade;
 
     private String nome;
 
-//    @OneToMany(mappedBy = "bairro", cascade = CascadeType.ALL)
-//    private Set<BairroPequisa> bairroPesquisas = new HashSet<>();
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "data_alteracao")
+    private Date alteracao;
 }

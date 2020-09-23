@@ -14,14 +14,29 @@ import javax.validation.Valid;
 
 @RequestMapping("pesquisa")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PesquisaController {
 
-    @Autowired private PesquisaBuilder builder;
-    @Autowired private PesquisaService pesquisaService;
+    @Autowired
+    private PesquisaBuilder builder;
+    @Autowired
+    private PesquisaService pesquisaService;
 
     @GetMapping
     public ResponseEntity<?> buscar() {
         return new ResponseEntity<>(pesquisaService.buscar(),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/resultado")
+    public ResponseEntity<?> buscarComResultado(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(pesquisaService.buscarComResultado(id),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> buscarPorId(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(pesquisaService.buscarPorId(id),
                 HttpStatus.OK);
     }
 

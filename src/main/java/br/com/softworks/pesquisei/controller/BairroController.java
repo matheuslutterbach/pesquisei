@@ -14,10 +14,13 @@ import javax.validation.Valid;
 
 @RequestMapping("bairro")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class BairroController {
 
-    @Autowired private BairroBuilder builder;
-    @Autowired private BairroService bairroService;
+    @Autowired
+    private BairroBuilder builder;
+    @Autowired
+    private BairroService bairroService;
 
     @GetMapping
     public ResponseEntity<?> buscar() {
@@ -37,5 +40,11 @@ public class BairroController {
 
         return new ResponseEntity<>(bairroService.cadastrar(builder.build(bairro, dto)),
                 HttpStatus.CREATED);
+    }
+
+    @GetMapping("/cidade/{id}")
+    public ResponseEntity<?> buscarPorCidade(@PathVariable("id") Long idCidade) {
+        return new ResponseEntity<>(bairroService.buscarPorCidade(idCidade),
+                HttpStatus.OK);
     }
 }

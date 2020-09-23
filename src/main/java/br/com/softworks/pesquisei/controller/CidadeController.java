@@ -14,6 +14,7 @@ import javax.validation.Valid;
 
 @RequestMapping("cidade")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CidadeController {
 
     @Autowired

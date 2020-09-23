@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Builder
@@ -33,4 +34,13 @@ public class Resposta {
 
     @NotNull
     private Integer ordem;
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "data_alteracao")
+    private Date alteracao;
+
+    @Transient
+    private Long perguntaId;
+
 }

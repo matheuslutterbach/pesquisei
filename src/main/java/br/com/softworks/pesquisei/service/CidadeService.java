@@ -6,6 +6,7 @@ import br.com.softworks.pesquisei.repository.CidadeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class CidadeService {
     }
 
     public Cidade cadastrar(Cidade cidade) {
+        cidade.setAlteracao(new Date());
         return cidadeRepository.save(cidade);
     }
 

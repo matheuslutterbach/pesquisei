@@ -5,8 +5,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.websocket.server.ServerEndpoint;
+import java.util.Date;
 
 @Entity
 @Builder
@@ -28,4 +30,9 @@ public class Cidade {
     @NotBlank
     @Size(max = 2)
     private String estadoSigla;
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "data_alteracao")
+    private Date alteracao;
 }

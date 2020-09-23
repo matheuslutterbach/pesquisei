@@ -3,5 +3,7 @@ create TABLE IF NOT EXISTS tbl_pesquisa (
     nome                       VARCHAR(255) NOT NULL,
     descricao                  VARCHAR(255),
     data_cricao                DATETIME,
-    numero_entrevistados       INT
+    numero_entrevistados       INT,
+    data_alteracao             DATETIME  NOT NULL
+
 )  ENGINE=INNODB;

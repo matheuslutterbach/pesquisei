@@ -1,24 +1,17 @@
 package br.com.softworks.pesquisei.builder;
 
-import br.com.softworks.pesquisei.dto.BairroPesquisaDTO;
-import br.com.softworks.pesquisei.dto.PerguntaDTO;
 import br.com.softworks.pesquisei.dto.PesquisaDTO;
-import br.com.softworks.pesquisei.dto.RespostaDTO;
 import br.com.softworks.pesquisei.model.*;
 import br.com.softworks.pesquisei.service.BairroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class PesquisaBuilder {
 
-    @Autowired
-    private BairroService bairroService;
+    @Autowired private BairroService bairroService;
 
     public Pesquisa build(Pesquisa pesquisa, PesquisaDTO dto) {
 
@@ -43,6 +36,7 @@ public class PesquisaBuilder {
             pergunta.setDescricao(perguntaDTO.getDescricao());
             pergunta.setOrdem(perguntaDTO.getOrdem());
             pergunta.setPesquisa(pesquisa);
+            pergunta.setAlteracao(new Date());
 
             List<Resposta> respostas = new LinkedList<>();
             perguntaDTO.getRespostas().forEach(respostaDTO -> {
@@ -50,6 +44,7 @@ public class PesquisaBuilder {
                 resposta.setDescricao(respostaDTO.getDescricao());
                 resposta.setOrdem(respostaDTO.getOrdem());
                 resposta.setPergunta(pergunta);
+                resposta.setAlteracao(new Date());
                 respostas.add(resposta);
             });
 
