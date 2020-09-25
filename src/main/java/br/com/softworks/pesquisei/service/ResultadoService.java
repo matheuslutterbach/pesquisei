@@ -70,6 +70,37 @@ public class ResultadoService {
         return resultadoDTOS;
     }
 
+    public List<RetornoResultadoDTO> buscarConsolidadoPerguntaBairro(Long idPergunta, Long idBairro) {
+        String sql = "SELECT " +
+                "resultado.id id, " +
+                "pergunta.descricao pergunta, " +
+                "resposta.descricao resposta, " +
+                "count(resposta.descricao) total " +
+                "FROM tbl_resultado resultado\n" +
+                "INNER JOIN tbl_pergunta pergunta ON resultado.id_pergunta = pergunta.id \n" +
+                "INNER JOIN tbl_resposta resposta ON resultado.id_resposta = resposta.id\n" +
+                "WHERE pergunta.id = :idPergunta AND resultado.id_bairro = :idBairro " +
+                "group by resposta.descricao;";
+
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("idPergunta", idPergunta);
+        query.setParameter("idBairro", idBairro);
+
+        List<Object[]> result = query.getResultList();
+
+
+        List<RetornoResultadoDTO> resultadoDTOS = new LinkedList<>();
+        for (Object[] a : result) {
+            resultadoDTOS.add(RetornoResultadoDTO.builder()
+                    .pergunta(a[1].toString())
+                    .resposta(a[2].toString())
+                    .total(Long.parseLong(a[3].toString()))
+                    .build());
+        }
+
+        return resultadoDTOS;
+    }
+
     public List<RetornoResultadoDTO> buscarResultados(Long idPergunta) {
         String sql = "SELECT " +
                 "resultado.id id, " +

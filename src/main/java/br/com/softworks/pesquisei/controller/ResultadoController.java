@@ -55,7 +55,7 @@ public class ResultadoController {
     @GetMapping("/pesquisa/{idPesquisa}/exportar")
     public void exportarXlsx(HttpServletResponse response, @PathVariable("idPesquisa") Long idPesquisa) throws IOException {
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=resultado-" + new Date().toString() + ".xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=resultado.xlsx; charset=utf-8");
         ByteArrayInputStream stream = service.exportarXlsx(idPesquisa);
         IOUtils.copy(stream, response.getOutputStream());
     }

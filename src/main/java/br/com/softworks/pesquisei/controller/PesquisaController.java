@@ -4,6 +4,7 @@ package br.com.softworks.pesquisei.controller;
 import br.com.softworks.pesquisei.builder.PesquisaBuilder;
 import br.com.softworks.pesquisei.dto.PesquisaDTO;
 import br.com.softworks.pesquisei.model.Pesquisa;
+import br.com.softworks.pesquisei.service.BairroService;
 import br.com.softworks.pesquisei.service.PesquisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,14 @@ public class PesquisaController {
 
     @GetMapping("/{id}/resultado")
     public ResponseEntity<?> buscarComResultado(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(pesquisaService.buscarComResultado(id),
+        return new ResponseEntity<>(pesquisaService.buscarComResultado(id, null),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/{idPergunta}/bairro/{idBairro}/resultado")
+    public ResponseEntity<?> buscarComResultado(@PathVariable("idPergunta") Long id,
+                                                @PathVariable("idBairro") Long idBairro) {
+        return new ResponseEntity<>(pesquisaService.buscarComResultado(id, idBairro),
                 HttpStatus.OK);
     }
 

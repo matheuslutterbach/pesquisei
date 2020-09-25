@@ -9,10 +9,9 @@ import br.com.softworks.pesquisei.repository.PesquisaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ObjectStreamException;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,11 +49,19 @@ public class PesquisaService {
         return pesquisa.orElseThrow(() -> new ServiceException("Pesquisa", id));
     }
 
-    public Pesquisa buscarComResultado(Long id) {
+    public Pesquisa buscarComResultado(Long id, Long idBairro) {
         Pesquisa pesquisa = buscarPorId(id);
 
+        List<RetornoResultadoDTO> resultadoDTOS;
         for (Pergunta pergunta : pesquisa.getPerguntas()) {
-            List<RetornoResultadoDTO> resultadoDTOS = resultadoService.buscarConsolidadoPergunta(pergunta.getId());
+            if (Objects.isNull(idBairro)) {
+                resultadoDTOS =
+                        resultadoService.buscarConsolidadoPergunta(pergunta.getId());
+            } else {
+                resultadoDTOS =
+                        resultadoService.buscarConsolidadoPerguntaBairro(pergunta.getId(), idBairro);
+            }
+
             pergunta.setResultados(resultadoDTOS);
 
 

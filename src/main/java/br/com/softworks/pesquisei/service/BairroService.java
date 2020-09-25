@@ -36,4 +36,9 @@ public class BairroService {
 
         return bairro.orElseThrow(() -> new ServiceException("Bairro", id));
     }
+
+
+
+
+
 }
