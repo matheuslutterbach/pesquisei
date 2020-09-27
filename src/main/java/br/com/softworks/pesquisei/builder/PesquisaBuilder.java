@@ -11,7 +11,8 @@ import java.util.*;
 @Component
 public class PesquisaBuilder {
 
-    @Autowired private BairroService bairroService;
+    @Autowired
+    private BairroService bairroService;
 
     public Pesquisa build(Pesquisa pesquisa, PesquisaDTO dto) {
 
@@ -24,7 +25,7 @@ public class PesquisaBuilder {
             Bairro bairro = bairroService.buscarPorId(bp.getBairroId());
             BairroPequisa bairroPesquisa = new BairroPequisa();
             bairroPesquisa.setBairro(bairro);
-            bairroPesquisa.setPercentual(bp.getPercentual());
+            bairroPesquisa.setQuantidade(bp.getQuantidade());
             bairroPesquisa.setPesquisa(pesquisa);
             bairroPesquisas.add(bairroPesquisa);
         });

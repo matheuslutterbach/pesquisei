@@ -29,5 +29,5 @@ public class BairroPequisa implements Serializable {
     @JoinColumn(name = "id_pesquisa")
     private Pesquisa pesquisa;
 
-    private BigDecimal percentual;
+    private Integer quantidade;
 }

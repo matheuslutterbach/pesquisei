@@ -9,10 +9,10 @@ import br.com.softworks.pesquisei.repository.PesquisaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.ObjectStreamException;
-import java.math.BigDecimal;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class PesquisaService {
@@ -30,13 +30,13 @@ public class PesquisaService {
         pesquisa.setAlteracao(new Date());
         pesquisa.setDataCricao(new Date());
 
-        BigDecimal percentualTotal = pesquisa.getBairroPesquisas()
+        Integer quantidadeTotal = pesquisa.getBairroPesquisas()
                 .stream()
-                .map(BairroPequisa::getPercentual)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(BairroPequisa::getQuantidade)
+                .reduce(0, Integer::sum);
 
-        if (percentualTotal.compareTo(BigDecimal.valueOf(100)) > 0) {
-            throw new ServiceException("Percentual ultrapassou 100%");
+        if (quantidadeTotal.compareTo(pesquisa.getNumeroEntrevistados()) > 0) {
+            throw new ServiceException("Quantidade ultrapassou o número de entrevistados");
         }
 
         return pesquisaRepository.save(pesquisa);
