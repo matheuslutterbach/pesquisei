@@ -9,6 +9,8 @@ import br.com.softworks.pesquisei.repository.PesquisaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -73,7 +75,15 @@ public class PesquisaService {
                 pergunta.getTotais().add(resultadoDTO.getTotal());
             });
 
+
+            Long totalGeral = pergunta.getTotais().stream().reduce(0L, Long::sum);
+
+            pergunta.getTotais().forEach(total -> pergunta.getTotaisPorcentagem().add(BigDecimal.valueOf(total)
+                    .multiply(BigDecimal.valueOf(100))
+                    .divide(BigDecimal.valueOf(totalGeral), 2, RoundingMode.HALF_EVEN)));
         }
+
+
         return pesquisa;
     }
 }

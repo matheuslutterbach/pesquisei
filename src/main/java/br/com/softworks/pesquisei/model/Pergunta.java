@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
@@ -60,7 +61,10 @@ public class Pergunta {
     private List<String> labels = new LinkedList<>();
 
     @Transient
-    private List<Long> totais = new LinkedList<>();;
+    private List<Long> totais = new LinkedList<>();
+
+    @Transient
+    private List<BigDecimal> totaisPorcentagem = new LinkedList<>();
 
     public void adicionaResultados(List<RetornoResultadoDTO> resultados) {
         if (resultados == null) {

@@ -128,16 +128,18 @@ public class ResultadoService {
         return resultadoDTOS;
     }
 
-    public ByteArrayInputStream exportarXlsx(Long idPesquisa) {
-        String sql = "SELECT pergunta.descricao pergunta,\n" +
-                "\t   resposta.descricao resposta,\n" +
-                "       bairro.nome bairro,\n" +
-                "       cidade.nome cidade\n" +
-                " FROM tbl_resultado resultado\n" +
-                "LEFT JOIN tbl_pergunta pergunta ON pergunta.id = resultado.id_pergunta\n" +
-                "LEFT JOIN tbl_resposta resposta ON resposta.id = resultado.id_resposta\n" +
-                "LEFT JOIN tbl_bairro bairro ON bairro.id = resultado.id_bairro\n" +
-                "LEFT JOIN tbl_cidade cidade ON cidade.id = bairro.id_cidade where pergunta.id_pesquisa = :idPesquisa";
+
+    public List<RetornoResultadoDTO> exportarCsv(Long idPesquisa) {
+        String sql = "SELECT concat('\"', pergunta.descricao, '\"') pergunta,\n" +
+                "                   resposta.descricao resposta,\n" +
+                "                       bairro.nome bairro,\n" +
+                "                       cidade.nome cidade\n" +
+                "                 FROM tbl_resultado resultado\n" +
+                "                LEFT JOIN tbl_pergunta pergunta ON pergunta.id = resultado.id_pergunta\n" +
+                "                LEFT JOIN tbl_resposta resposta ON resposta.id = resultado.id_resposta\n" +
+                "                LEFT JOIN tbl_bairro bairro ON bairro.id = resultado.id_bairro\n" +
+                "                LEFT JOIN tbl_cidade cidade ON cidade.id = bairro.id_cidade where pergunta.id_pesquisa = :idPesquisa";
+
 
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("idPesquisa", idPesquisa);
@@ -154,73 +156,76 @@ public class ResultadoService {
                     .build());
         }
 
-
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        HSSFSheet sheet = workbook.createSheet("resultado_" + idPesquisa);
-        sheet.setDefaultColumnWidth(15);
-        sheet.setDefaultRowHeight((short) 400);
-
-
-        int rownum = 0;
-        int cellnum = 0;
-        Cell cell;
-        Row row;
-
-        HSSFDataFormat numberFormat = workbook.createDataFormat();
-        CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-
-        CellStyle textStyle = workbook.createCellStyle();
-        textStyle.setAlignment(HorizontalAlignment.CENTER);
-        textStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-
-
-        row = sheet.createRow(rownum++);
-        cell = row.createCell(cellnum++);
-        cell.setCellStyle(headerStyle);
-        cell.setCellValue("Pergunta");
-
-        cell = row.createCell(cellnum++);
-        cell.setCellStyle(headerStyle);
-        cell.setCellValue("Resposta");
-
-        cell = row.createCell(cellnum++);
-        cell.setCellStyle(headerStyle);
-        cell.setCellValue("Bairro");
-
-        cell = row.createCell(cellnum++);
-        cell.setCellStyle(headerStyle);
-        cell.setCellValue("Cidade");
-
-        for (RetornoResultadoDTO resultadoDTO : resultadoDTOS) {
-            row = sheet.createRow(rownum++);
-            cellnum = 0;
-
-            cell = row.createCell(cellnum++);
-            cell.setCellStyle(textStyle);
-            cell.setCellValue(resultadoDTO.getPergunta());
-
-            cell = row.createCell(cellnum++);
-            cell.setCellStyle(textStyle);
-            cell.setCellValue(resultadoDTO.getResposta());
-
-            cell = row.createCell(cellnum++);
-            cell.setCellStyle(textStyle);
-            cell.setCellValue(resultadoDTO.getBairro());
-
-            cell = row.createCell(cellnum++);
-            cell.setCellStyle(textStyle);
-            cell.setCellValue(resultadoDTO.getCidade());
-        }
-
-        try {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            workbook.write(outputStream);
-            workbook.close();
-            return new ByteArrayInputStream(outputStream.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return resultadoDTOS;
     }
+//
+//
+//        HSSFWorkbook workbook = new HSSFWorkbook();
+//        HSSFSheet sheet = workbook.createSheet("resultado_" + idPesquisa);
+//        sheet.setDefaultColumnWidth(15);
+//        sheet.setDefaultRowHeight((short) 400);
+//
+//
+//        int rownum = 0;
+//        int cellnum = 0;
+//        Cell cell;
+//        Row row;
+//
+//        HSSFDataFormat numberFormat = workbook.createDataFormat();
+//        CellStyle headerStyle = workbook.createCellStyle();
+//        headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+//
+//        CellStyle textStyle = workbook.createCellStyle();
+//        textStyle.setAlignment(HorizontalAlignment.CENTER);
+//        textStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+//
+//
+//        row = sheet.createRow(rownum++);
+//        cell = row.createCell(cellnum++);
+//        cell.setCellStyle(headerStyle);
+//        cell.setCellValue("Pergunta");
+//
+//        cell = row.createCell(cellnum++);
+//        cell.setCellStyle(headerStyle);
+//        cell.setCellValue("Resposta");
+//
+//        cell = row.createCell(cellnum++);
+//        cell.setCellStyle(headerStyle);
+//        cell.setCellValue("Bairro");
+//
+//        cell = row.createCell(cellnum++);
+//        cell.setCellStyle(headerStyle);
+//        cell.setCellValue("Cidade");
+//
+//        for (RetornoResultadoDTO resultadoDTO : resultadoDTOS) {
+//            row = sheet.createRow(rownum++);
+//            cellnum = 0;
+//
+//            cell = row.createCell(cellnum++);
+//            cell.setCellStyle(textStyle);
+//            cell.setCellValue(resultadoDTO.getPergunta());
+//
+//            cell = row.createCell(cellnum++);
+//            cell.setCellStyle(textStyle);
+//            cell.setCellValue(resultadoDTO.getResposta());
+//
+//            cell = row.createCell(cellnum++);
+//            cell.setCellStyle(textStyle);
+//            cell.setCellValue(resultadoDTO.getBairro());
+//
+//            cell = row.createCell(cellnum++);
+//            cell.setCellStyle(textStyle);
+//            cell.setCellValue(resultadoDTO.getCidade());
+//        }
+//
+//        try {
+//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+//            workbook.write(outputStream);
+//            workbook.close();
+//            return new ByteArrayInputStream(outputStream.toByteArray());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 }
