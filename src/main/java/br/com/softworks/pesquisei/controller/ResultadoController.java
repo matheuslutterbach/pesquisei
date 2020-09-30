@@ -84,7 +84,6 @@ public class ResultadoController {
 
 
         StatefulBeanToCsv<RetornoResultadoDTO> writer = new StatefulBeanToCsvBuilder<RetornoResultadoDTO>(response.getWriter())
-                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                 .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
                 .withMappingStrategy(strategy)
                 .withOrderedResults(false)
@@ -93,6 +92,4 @@ public class ResultadoController {
 
         writer.write(service.exportarCsv(idPesquisa));
     }
-
-
 }

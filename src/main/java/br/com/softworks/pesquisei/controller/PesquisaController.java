@@ -62,4 +62,11 @@ public class PesquisaController {
         return new ResponseEntity<>(pesquisaService.cadastrar(builder.build(pesquisa, dto)),
                 HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> excluir(@PathVariable("id") Long id) {
+         pesquisaService.remover(id);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

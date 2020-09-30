@@ -1,32 +1,24 @@
 package br.com.softworks.pesquisei.service;
 
 
-import br.com.softworks.pesquisei.dto.ResultadoDTO;
 import br.com.softworks.pesquisei.dto.RetornoResultadoDTO;
+import br.com.softworks.pesquisei.model.Pergunta;
 import br.com.softworks.pesquisei.model.Resultado;
 import br.com.softworks.pesquisei.repository.ResultadoRepository;
-import br.com.softworks.pesquisei.util.MapBuilder;
-import org.apache.poi.hssf.usermodel.HSSFDataFormat;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.io.*;
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class ResultadoService {
 
-    @Autowired
-    private ResultadoRepository repository;
+    @Autowired private ResultadoRepository repository;
 
-    @Autowired
-    private EntityManager entityManager;
+    @Autowired private EntityManager entityManager;
 
 
     public List<Resultado> buscar() {
@@ -130,7 +122,7 @@ public class ResultadoService {
 
 
     public List<RetornoResultadoDTO> exportarCsv(Long idPesquisa) {
-        String sql = "SELECT concat('\"', pergunta.descricao, '\"') pergunta,\n" +
+        String sql = "SELECT pergunta.descricao pergunta,\n" +
                 "                   resposta.descricao resposta,\n" +
                 "                       bairro.nome bairro,\n" +
                 "                       cidade.nome cidade\n" +
@@ -158,74 +150,10 @@ public class ResultadoService {
 
         return resultadoDTOS;
     }
-//
-//
-//        HSSFWorkbook workbook = new HSSFWorkbook();
-//        HSSFSheet sheet = workbook.createSheet("resultado_" + idPesquisa);
-//        sheet.setDefaultColumnWidth(15);
-//        sheet.setDefaultRowHeight((short) 400);
-//
-//
-//        int rownum = 0;
-//        int cellnum = 0;
-//        Cell cell;
-//        Row row;
-//
-//        HSSFDataFormat numberFormat = workbook.createDataFormat();
-//        CellStyle headerStyle = workbook.createCellStyle();
-//        headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-//
-//        CellStyle textStyle = workbook.createCellStyle();
-//        textStyle.setAlignment(HorizontalAlignment.CENTER);
-//        textStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-//
-//
-//        row = sheet.createRow(rownum++);
-//        cell = row.createCell(cellnum++);
-//        cell.setCellStyle(headerStyle);
-//        cell.setCellValue("Pergunta");
-//
-//        cell = row.createCell(cellnum++);
-//        cell.setCellStyle(headerStyle);
-//        cell.setCellValue("Resposta");
-//
-//        cell = row.createCell(cellnum++);
-//        cell.setCellStyle(headerStyle);
-//        cell.setCellValue("Bairro");
-//
-//        cell = row.createCell(cellnum++);
-//        cell.setCellStyle(headerStyle);
-//        cell.setCellValue("Cidade");
-//
-//        for (RetornoResultadoDTO resultadoDTO : resultadoDTOS) {
-//            row = sheet.createRow(rownum++);
-//            cellnum = 0;
-//
-//            cell = row.createCell(cellnum++);
-//            cell.setCellStyle(textStyle);
-//            cell.setCellValue(resultadoDTO.getPergunta());
-//
-//            cell = row.createCell(cellnum++);
-//            cell.setCellStyle(textStyle);
-//            cell.setCellValue(resultadoDTO.getResposta());
-//
-//            cell = row.createCell(cellnum++);
-//            cell.setCellStyle(textStyle);
-//            cell.setCellValue(resultadoDTO.getBairro());
-//
-//            cell = row.createCell(cellnum++);
-//            cell.setCellStyle(textStyle);
-//            cell.setCellValue(resultadoDTO.getCidade());
-//        }
-//
-//        try {
-//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//            workbook.write(outputStream);
-//            workbook.close();
-//            return new ByteArrayInputStream(outputStream.toByteArray());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+
+    public void deletarPorPergunta(Pergunta pergunta) {
+        List<Resultado> resultados = repository.findAllByPerguntaId(pergunta.getId());
+
+        repository.deleteAll(resultados);
+    }
 }

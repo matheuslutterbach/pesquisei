@@ -7,7 +7,9 @@ import br.com.softworks.pesquisei.model.Pergunta;
 import br.com.softworks.pesquisei.model.Pesquisa;
 import br.com.softworks.pesquisei.repository.PesquisaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Transient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,6 +25,7 @@ public class PesquisaService {
     private PesquisaRepository pesquisaRepository;
     @Autowired
     private ResultadoService resultadoService;
+
 
     public List<Pesquisa> buscar() {
         return pesquisaRepository.findAll();
@@ -82,8 +85,18 @@ public class PesquisaService {
                     .multiply(BigDecimal.valueOf(100))
                     .divide(BigDecimal.valueOf(totalGeral), 2, RoundingMode.HALF_EVEN)));
         }
-
-
         return pesquisa;
+    }
+
+
+    @Transactional
+    public void remover(Long idPesquisa) {
+        Pesquisa pesquisa = buscarPorId(idPesquisa);
+
+        for (Pergunta pergunta : pesquisa.getPerguntas()) {
+            resultadoService.deletarPorPergunta(pergunta);
+        }
+
+        pesquisaRepository.delete(pesquisa);
     }
 }

@@ -6,6 +6,7 @@ import br.com.softworks.pesquisei.dto.BairroDTO;
 import br.com.softworks.pesquisei.model.Bairro;
 import br.com.softworks.pesquisei.service.BairroService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -46,5 +47,20 @@ public class BairroController {
     public ResponseEntity<?> buscarPorCidade(@PathVariable("id") Long idCidade) {
         return new ResponseEntity<>(bairroService.buscarPorCidade(idCidade),
                 HttpStatus.OK);
+    }
+
+
+    @GetMapping("/paginacao")
+    public Page<Bairro> search(
+            @RequestParam("filtro") String searchTerm,
+            @RequestParam(
+                    value = "page",
+                    required = false,
+                    defaultValue = "0") int page,
+            @RequestParam(
+                    value = "size",
+                    required = false,
+                    defaultValue = "10") int size) {
+        return bairroService.buscarPaginado(searchTerm, page, size);
     }
 }
