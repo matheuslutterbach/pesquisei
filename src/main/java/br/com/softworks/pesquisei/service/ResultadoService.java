@@ -1,6 +1,7 @@
 package br.com.softworks.pesquisei.service;
 
 
+import br.com.softworks.pesquisei.dto.ResultadoDTO;
 import br.com.softworks.pesquisei.dto.RetornoResultadoDTO;
 import br.com.softworks.pesquisei.model.Pergunta;
 import br.com.softworks.pesquisei.model.Resultado;
@@ -16,9 +17,14 @@ import java.util.List;
 @Service
 public class ResultadoService {
 
-    @Autowired private ResultadoRepository repository;
+    @Autowired
+    private ResultadoRepository repository;
 
-    @Autowired private EntityManager entityManager;
+    @Autowired
+    private PesquisaService pesquisaService;
+
+    @Autowired
+    private EntityManager entityManager;
 
 
     public List<Resultado> buscar() {
@@ -34,7 +40,6 @@ public class ResultadoService {
 
     public List<RetornoResultadoDTO> buscarConsolidadoPergunta(Long idPergunta) {
         String sql = "SELECT " +
-                "resultado.id id, " +
                 "pergunta.descricao pergunta, " +
                 "resposta.descricao resposta, " +
                 "count(resposta.descricao) total " +
@@ -42,7 +47,7 @@ public class ResultadoService {
                 "INNER JOIN tbl_pergunta pergunta ON resultado.id_pergunta = pergunta.id \n" +
                 "INNER JOIN tbl_resposta resposta ON resultado.id_resposta = resposta.id\n" +
                 "WHERE pergunta.id = :idPergunta " +
-                "group by resposta.descricao;";
+                "group by pergunta.descricao, resposta.descricao;";
 
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("idPergunta", idPergunta);
@@ -53,9 +58,9 @@ public class ResultadoService {
         List<RetornoResultadoDTO> resultadoDTOS = new LinkedList<>();
         for (Object[] a : result) {
             resultadoDTOS.add(RetornoResultadoDTO.builder()
-                    .pergunta(a[1].toString())
-                    .resposta(a[2].toString())
-                    .total(Long.parseLong(a[3].toString()))
+                    .pergunta(a[0].toString())
+                    .resposta(a[1].toString())
+                    .total(Long.parseLong(a[2].toString()))
                     .build());
         }
 
@@ -64,7 +69,6 @@ public class ResultadoService {
 
     public List<RetornoResultadoDTO> buscarConsolidadoPerguntaBairro(Long idPergunta, Long idBairro) {
         String sql = "SELECT " +
-                "resultado.id id, " +
                 "pergunta.descricao pergunta, " +
                 "resposta.descricao resposta, " +
                 "count(resposta.descricao) total " +
@@ -72,7 +76,7 @@ public class ResultadoService {
                 "INNER JOIN tbl_pergunta pergunta ON resultado.id_pergunta = pergunta.id \n" +
                 "INNER JOIN tbl_resposta resposta ON resultado.id_resposta = resposta.id\n" +
                 "WHERE pergunta.id = :idPergunta AND resultado.id_bairro = :idBairro " +
-                "group by resposta.descricao;";
+                "group by pergunta.descricao, resposta.descricao;";
 
         Query query = entityManager.createNativeQuery(sql);
         query.setParameter("idPergunta", idPergunta);
@@ -84,9 +88,9 @@ public class ResultadoService {
         List<RetornoResultadoDTO> resultadoDTOS = new LinkedList<>();
         for (Object[] a : result) {
             resultadoDTOS.add(RetornoResultadoDTO.builder()
-                    .pergunta(a[1].toString())
-                    .resposta(a[2].toString())
-                    .total(Long.parseLong(a[3].toString()))
+                    .pergunta(a[0].toString())
+                    .resposta(a[1].toString())
+                    .total(Long.parseLong(a[2].toString()))
                     .build());
         }
 

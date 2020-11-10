@@ -1,3 +1,5 @@
 FROM adoptopenjdk/openjdk11
-
-COPY target/demo-0.0.1-SNAPSHOT.jar /demo.jar
+VOLUME /tmp
+COPY target/pesquisei-0.1*.jar app.jar
+EXPOSE 8060
+ENTRYPOINT ["java", "-jar", "/app.jar"]

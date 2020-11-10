@@ -35,15 +35,6 @@ public class PesquisaService {
         pesquisa.setAlteracao(new Date());
         pesquisa.setDataCricao(new Date());
 
-        Integer quantidadeTotal = pesquisa.getBairroPesquisas()
-                .stream()
-                .map(BairroPequisa::getQuantidade)
-                .reduce(0, Integer::sum);
-
-        if (quantidadeTotal.compareTo(pesquisa.getNumeroEntrevistados()) > 0) {
-            throw new ServiceException("Quantidade ultrapassou o número de entrevistados");
-        }
-
         return pesquisaRepository.save(pesquisa);
     }
 
@@ -86,6 +77,13 @@ public class PesquisaService {
                     .divide(BigDecimal.valueOf(totalGeral), 2, RoundingMode.HALF_EVEN)));
         }
         return pesquisa;
+    }
+
+
+    public Integer buscarNumeroPerguntas(Long idPesquisa) {
+        Pesquisa pesquisa = buscarPorId(idPesquisa);
+
+        return pesquisa.getPerguntas().size();
     }
 
 
